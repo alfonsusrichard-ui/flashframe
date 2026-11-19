@@ -5,7 +5,7 @@ import { put, list, del } from "@vercel/blob";
 
 export const TTL_MS = 24 * 60 * 60 * 1000;
 const DIR = path.join(process.cwd(), ".data");
-const useBlob = !!process.env.BLOB_READ_WRITE_TOKEN;
+const useBlob = !!(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
 const EXT: Record<string, string> = { "image/png": "png", "image/jpeg": "jpg" };
 export const ID_RE = /^[A-Za-z0-9_-]{16}$/;
 

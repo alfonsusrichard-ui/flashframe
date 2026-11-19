@@ -19,7 +19,8 @@ export async function POST(req: Request) {
     purge().catch(() => {}); // opportunistic cleanup
     const base = process.env.NEXT_PUBLIC_BASE_URL || new URL(req.url).origin;
     return NextResponse.json({ id, url: `${base}/d/${id}`, expiresInHours: 24 });
-  } catch {
-    return NextResponse.json({ error: "Upload gagal." }, { status: 500 });
-  }
+} catch (e) {
+  console.error("upload error:", e);
+  return NextResponse.json({ error: "Upload gagal." }, { status: 500 });
+}
 }
