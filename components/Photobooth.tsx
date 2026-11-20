@@ -113,7 +113,7 @@ export default function Photobooth() {
         {view === "cap" && (
           <section className="grid gap-5 lg:grid-cols-[1.5fr_1fr]">
             <div>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-black">
+              <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/10 bg-black">
                 <video ref={vid} playsInline muted className="h-full w-full -scale-x-100 object-cover" />
                 {count > 0 && <div className="absolute inset-0 flex items-center justify-center text-[clamp(80px,22vw,180px)] font-extrabold text-white drop-shadow-2xl">{count}</div>}
                 {flash && <div className="absolute inset-0 animate-pulse bg-white" />}
