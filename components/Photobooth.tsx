@@ -41,7 +41,7 @@ export default function Photobooth() {
     stopCam(); setCamErr("");
     try {
       if (!navigator.mediaDevices?.getUserMedia) throw new Error("Browser tidak mendukung kamera (butuh HTTPS).");
-      const s = await navigator.mediaDevices.getUserMedia({ video: { deviceId: id ? { exact: id } : undefined, facingMode: id ? undefined : "user", width: { ideal: 1280 }, height: { ideal: 960 } }, audio: false });
+      const s = await navigator.mediaDevices.getUserMedia({ video: { deviceId: id ? { exact: id } : undefined, facingMode: id ? undefined : "user", width: { ideal: 1920 }, height: { ideal: 1080 } }, audio: false });
       stream.current = s; if (vid.current) { vid.current.srcObject = s; await vid.current.play(); }
       setCams((await navigator.mediaDevices.enumerateDevices()).filter((d) => d.kind === "videoinput")); setCamReady(true);
     } catch (e) {
