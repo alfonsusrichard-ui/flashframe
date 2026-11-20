@@ -25,7 +25,7 @@ function grain() {
 
 /** Composes photos + frame + text + branding into one canvas. */
 export function render(c: HTMLCanvasElement, sc: number, photos: CanvasImageSource[] & { width?: number }[] | HTMLCanvasElement[], o: Opts) {
-  const T = TPL[o.tpl], n = photos.length, pol = !!T.pol, pw = 600, ph = 450, pad = pol ? 18 : 0, pb = pol ? 70 : 0, foot = 150;
+  const T = TPL[o.tpl], n = photos.length, pol = !!T.pol, pw = 640, ph = 360, pad = pol ? 18 : 0, pb = pol ? 70 : 0, foot = 150;
   const cw = pw + 2 * pad, ch = ph + pb + 2 * pad, b = o.bd, g = o.gap, hor = o.tpl === "custom" && o.or === "h";
   const W = hor ? b * 2 + n * cw + (n - 1) * g : cw + 2 * b, H = hor ? b * 2 + ch + foot : b * 2 + n * ch + (n - 1) * g + foot;
   c.width = Math.round(W * sc); c.height = Math.round(H * sc);
