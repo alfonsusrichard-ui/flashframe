@@ -52,7 +52,7 @@ export default function Photobooth() {
   useEffect(() => { if (view === "cap") openCam(); else stopCam(); return stopCam; }, [view, openCam]);
   useEffect(() => { if (cv.current && photos.length && (view === "edit" || view === "exp")) render(cv.current, 0.6, used(), o); }, [view, photos, o, used]);
 
-  const grab = () => { const v = vid.current!, c = document.createElement("canvas"); c.width = v.videoWidth; c.height = v.videoHeight; const x = c.getContext("2d")!; x.translate(c.width, 0); x.scale(-1, 1); x.drawImage(v, 0, 0); return c; };
+  const grab = () => { const v = vid.current!, c = document.createElement("canvas"); c.width = v.videoWidth; c.height = v.videoHeight; const x = c.getContext("2d")!; x.drawImage(v, 0, 0); return c; };
   const shot = async () => { for (let k = 3; k > 0; k--) { setCount(k); await wait(1000); } setCount(0); setFlash(true); setTimeout(() => setFlash(false), 450); return grab(); };
   const capture = async () => { if (busy || !camReady) return; setBusy(true); try { let cur = photos.slice(); while (cur.length < n) { cur = [...cur, await shot()]; setPhotos(cur); await wait(600); } } finally { setBusy(false); } };
   const retake = async (i: number) => { if (busy || !camReady) return; setBusy(true); try { const c = await shot(); setPhotos((p) => p.map((x, k) => (k === i ? c : x))); } finally { setBusy(false); } };
@@ -114,7 +114,7 @@ export default function Photobooth() {
           <section className="grid gap-5 lg:grid-cols-[1.5fr_1fr]">
             <div>
               <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/10 bg-black">
-                <video ref={vid} playsInline muted className="h-full w-full -scale-x-100 object-cover" />
+                <video ref={vid} playsInline muted className="h-full w-full object-cover" />
                 {count > 0 && <div className="absolute inset-0 flex items-center justify-center text-[clamp(80px,22vw,180px)] font-extrabold text-white drop-shadow-2xl">{count}</div>}
                 {flash && <div className="absolute inset-0 animate-pulse bg-white" />}
                 {!camReady && <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center text-neutral-300">{camErr || "Menyiapkan kamera. Izinkan akses kamera di dialog browser."}{camErr && <button className={pri} onClick={() => openCam()}>Coba lagi</button>}</div>}
