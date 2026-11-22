@@ -163,7 +163,7 @@ export default function Photobooth() {
                 <div className="mt-3 flex gap-2">{[[1, "Standar 1x"], [2, "Tinggi 2x"], [3, "Maks 3x"]].map(([k, l]) => <button key={k} onClick={() => setRes(+k)} className={`${btn} !px-3 ${res === k ? "!bg-violet-300 !text-neutral-950" : ""}`}>{l}</button>)}</div>
                 <div className="mt-4 grid grid-cols-2 gap-2"><button className={pri} onClick={() => download("png")}>Download PNG</button><button className={pri} onClick={() => download("jpg")}>Download JPG</button><button className={btn} onClick={() => setPrintOpen(true)}>Print Photo</button><button className={btn} disabled={qrBusy} onClick={makeQR}>{qrBusy ? "Mengunggah…" : "QR Code"}</button></div>
                 {qr && <div className="mt-5 text-center"><p className="text-sm text-neutral-300">Scan untuk membuka dan mengunduh foto</p>{/* eslint-disable-next-line @next/next/no-img-element */}<img src={qr.img} alt="QR Code" className="mx-auto my-3 w-52 rounded-xl bg-white p-2" /><a href={qr.url} target="_blank" className="break-all text-xs text-violet-300 underline">{qr.url}</a><p className="mt-2 text-xs text-neutral-400">Dihapus otomatis setelah 24 jam.</p></div>}
-                <div className="mt-5 flex gap-2"><button className={btn} onClick={() => next("edit")}>Kembali edit</button><button className={btn} onClick={() => { setPhotos([]); setQr(null); next("cap"); }}>Sesi baru</button></div>
+                <div className="mt-5 flex gap-2"><button className={btn} onClick={() => next("edit")}>Kembali edit</button><button className={btn} onClick={() => { setPhotos([]); setQr(null); next(PAY_ON ? "pay" : "cap"); }}>Sesi baru</button></div>
               </div>
             )}
           </section>
