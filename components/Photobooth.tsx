@@ -1,9 +1,11 @@
 "use client";
+import PaymentGate from "./PaymentGate";
 import { useCallback, useEffect, useRef, useState } from "react";
 import QRCode from "qrcode";
 import { render, defaults, TPL, Opts, TplKey } from "@/lib/render";
 
-type View = "home" | "cap" | "edit" | "exp";
+type View = "home" | "pay" | "cap" | "edit" | "exp";
+const PAY_ON = process.env.NEXT_PUBLIC_PAYMENT_ENABLED === "true";
 const PAPER: Record<string, [number, number]> = { "2x6": [2, 6], "4x6": [4, 6], A4: [8.27, 11.69] };
 const SLIDERS: [keyof Opts, string, number, number][] = [["br", "Brightness", 60, 150], ["co", "Contrast", 60, 150], ["sa", "Saturation", 0, 200], ["wa", "Warmth", -100, 100], ["gap", "Jarak antar foto", 0, 60], ["bd", "Ukuran border", 0, 80]];
 const btn = "rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 font-semibold transition hover:border-violet-300 disabled:cursor-not-allowed disabled:opacity-40";
@@ -102,7 +104,7 @@ export default function Photobooth() {
           <section className="py-14 text-center">
             <h1 className="mx-auto max-w-3xl text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">Capture Your Moments, Frame Your Memories.</h1>
             <p className="mx-auto my-6 max-w-xl text-lg leading-relaxed text-neutral-400">Photobooth digital di browser. Ambil foto dengan webcam, pilih template, edit, lalu cetak, unduh, atau bagikan lewat QR Code.</p>
-            <button className={pri + " rounded-full px-8 py-4 text-lg"} onClick={() => next("cap")}>Start Photobooth</button>
+            <button className={pri + " rounded-full px-8 py-4 text-lg"} onClick={() => next(PAY_ON ? "pay" : "cap")}>Start Photobooth</button>
             <TemplateRow />
             <div className="mt-12 grid gap-3 text-left sm:grid-cols-2 lg:grid-cols-3">
               {[["Kamera langsung", "Countdown 3-2-1, flash, dan 3 atau 4 foto berurutan."], ["Editor live", "Brightness, contrast, saturation, warmth, filter, teks, tanggal."], ["PNG dan JPG", "Ekspor 1x sampai 3x dari Canvas, sudah digabung dengan template."], ["Print", "Preview untuk 2x6, 4x6, dan A4, portrait atau landscape."], ["QR Code", "Tautan unduhan unik di server, bisa dipindai dari ponsel."], ["Privasi", "File dihapus otomatis 24 jam setelah dibuat."]].map(([t, d]) => <div key={t} className="rounded-2xl border border-white/10 bg-white/5 p-5"><h3 className="font-bold">{t}</h3><p className="mt-1 text-sm text-neutral-400">{d}</p></div>)}
@@ -110,6 +112,7 @@ export default function Photobooth() {
           </section>
         )}
 
+        {view === "pay" && <PaymentGate onPaid={() => next("cap")} onBack={() => next("home")} />}
         {view === "cap" && (
           <section className="grid gap-5 lg:grid-cols-[1.5fr_1fr]">
             <div>
